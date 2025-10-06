@@ -1,14 +1,8 @@
-#!/bin/sh
+FILES_PATTERN='\.txt$'
+FORBIDDEN='hello world'
 
-while read local_ref local_sha remote_ref remote_sha; do
-  files=$(git diff --diff-filter=AM --name-only -z "$remote_sha" "$local_sha" -- '*.txt')
-  echo "$files" | while IFS= read -r -d '' file; do
-    if git show "$local_sha:$file" | grep -q "Hello World"; then
-      echo "failed"
-      exit 1
-    fi
-  done
-done
-
-echo "pass"
-exit 0
+git diff --cached --name-only | \
+  grep -E "$FILES_PATTERN" | \
+  xargs grep --with-filename -n -F "$FORBIDDEN" && \
+  echo "COMMIT REJECTED Found '$FORBIDDEN' references. Please remove them before committing" && exit 1 || \
+  echo "No forbidden text found"
