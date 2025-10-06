@@ -1,0 +1,33 @@
+meta {
+  name: hent inntektsmeldinger
+  type: http
+  seq: 8
+}
+
+post {
+  url: https://sykepenger-api.ekstern.dev.nav.no/v1/inntektsmeldinger
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "orgnr": "{{tigersyskundeOrgnrUnderenhet}}",
+    "innsendingId": null,
+    "fnr": null,
+    "navReferanseId": null,
+    "tom": null,
+    "fom": null,
+    "status": null
+  }
+}
+
+script:pre-request {
+  const http = require('axios');
+  let response = await http.post(
+    'https://hag-lps-api-client.ekstern.dev.nav.no/systembruker',
+    'orgnr=' + bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
+  )
+  
+  req.setHeader('Authorization', "Bearer "+ response.data.tokenResponse.access_token);
+}
