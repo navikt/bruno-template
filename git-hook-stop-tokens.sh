@@ -1,13 +1,14 @@
 #!/bin/sh
-while read oldrev newrev refname; do
-  # List added or modified .txt files between oldrev and newrev
-  files=$(git diff --name-only "$oldrev" "$newrev" -- '*.txt')
 
-  for file in $files; do
-    # Extract the file content from the new revision
+while read oldrev newrev refname; do
+  git diff --diff-filter=AM --name-only -z "$oldrev" "$newrev" -- '*.txt' |
+  while IFS= read -r -d '' file; do
     if git show "$newrev:$file" | grep -q "Hello World"; then
-      echo "❌ Push rejected: 'Hello World' detected in $file"
+      echo "failed"
       exit 1
     fi
   done
 done
+
+echo "pass"
+exit 0
