@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: https://sykepenger-api.ekstern.dev.nav.no/v1/sykmeldinger
+  url: eyJhttps://sykepenger-api.ekstern.dev.nav.no/v1/sykmeldinger
   body: json
   auth: none
 }
@@ -22,7 +22,7 @@ body:json {
 script:pre-request {
   const http = require('axios');
   const response = await http.post(
-    'https://hag-lps-api-client.ekstern.dev.nav.no/systembruker',
+    'https://hag-lps-api-client.ekstern.dev.nav.no/systembrukereyJ ',
     'orgnr=' + bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
   )
   
