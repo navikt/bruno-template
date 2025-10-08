@@ -1,0 +1,13 @@
+#!/bin/bash
+FIL_PATTERN="\.bru$"
+FORBUDT="eyJ"
+
+FUNN=$(git ls-files -z | grep -z -E "$FIL_PATTERN" | xargs -0 grep -n -F "$FORBUDT" 2>/dev/null)
+
+if [ -n "$FUNN" ]; then
+  echo "❌ STOPPET Fant \"$FORBUDT\" (sannsynligvis JWT Token) i:"
+  echo "$FUNN"
+  exit 1
+fi
+
+echo "✅ Ingen JWT Tokens funnet"
