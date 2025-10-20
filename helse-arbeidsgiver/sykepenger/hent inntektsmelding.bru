@@ -11,15 +11,5 @@ get {
 }
 
 vars:pre-request {
-  id: 973f27e5-f753-474a-a886-e5271ab41523
-}
-
-script:pre-request {
-  const http = require('axios');
-  const response = await http.post(
-    'https://hag-lps-api-client.ekstern.dev.nav.no/systembruker',
-    'orgnr=' + bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
-  )
-
-  req.setHeader('Authorization', "Bearer "+ response.data.tokenResponse.access_token);
+  id: 65d339d9-fcc7-4898-a7ce-00e1813b056a
 }

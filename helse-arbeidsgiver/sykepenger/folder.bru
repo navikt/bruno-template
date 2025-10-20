@@ -10,6 +10,6 @@ auth {
 script:pre-request {
   const http = require('axios');
   const orgnr = bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
-  const response = await http.get('https://hag-token.intern.dev.nav.no/systembruker/' + orgnr)
+  const response = await http.get('https://hag-token.intern.dev.nav.no/systembruker/' + orgnr, { timeout: 3000 })
   req.setHeader('Authorization', "Bearer "+ response.data);
 }
