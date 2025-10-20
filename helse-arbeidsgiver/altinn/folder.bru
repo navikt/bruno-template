@@ -1,8 +1,21 @@
 meta {
   name: altinn
-  seq: 2
+  seq: 3
 }
 
 auth {
   mode: none
+}
+
+script:pre-request {
+  const http = require('axios');
+  const orgnr = bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
+  const response = await http.get('https://hag-token.intern.dev.nav.no/dialogporten/' + orgnr)
+  const maskinportenToken = response.data;
+  
+  const responseAltinn = await http.get(
+    'https://platform.tt02.altinn.no/authentication/api/v1/exchange/maskinporten',
+    {headers: {'Authorization': `Bearer ${maskinportenToken}`}}
+  );
+  req.setHeader('Authorization', "Bearer "+ responseAltinn.data);
 }

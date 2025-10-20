@@ -1,8 +1,15 @@
 meta {
   name: sykepenger
-  seq: 3
+  seq: 2
 }
 
 auth {
   mode: none
+}
+
+script:pre-request {
+  const http = require('axios');
+  const orgnr = bru.getCollectionVar("tigersyskundeOrgnrHovedenhet")
+  const response = await http.get('https://hag-token.intern.dev.nav.no/systembruker/' + orgnr)
+  req.setHeader('Authorization', "Bearer "+ response.data);
 }
