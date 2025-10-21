@@ -18,3 +18,9 @@ Kjør denne kommandoen for å ikke tillate "eyJ" (starten på JWT) i alle Bruno 
 ```
 git add hooks/pre-push
 ```
+
+______
+
+### Hente tokens
+Under `Script` menyen kan man definere pre-request script for tokens.
+![](token-script-skjermbilde.jpg)
